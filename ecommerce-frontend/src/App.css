@@ -1,0 +1,21 @@
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 50px;
+  background:#111827;
+  color:white;
+}
+
+.nav-links{
+  display:flex;
+  flex-direction:row;
+  list-style:none;
+  gap:25px;
+  margin:0;
+  padding:0;
+}
+
+.nav-links li{
+  cursor:pointer;
+}
