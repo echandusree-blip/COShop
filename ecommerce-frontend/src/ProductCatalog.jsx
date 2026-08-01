@@ -32,9 +32,9 @@ export default function AppRouter() {
     localStorage.setItem('coshop_pools', JSON.stringify(activeUserPools));
   }, [activeUserPools]);
 
-  // Fetch products from backend
+  // Fetch products from backend using Vercel environment variable
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Error fetching products:", err));
@@ -217,7 +217,7 @@ function MarketplaceHome({ products, cart, setCart, activeUserPools, setActiveUs
 
 function InviteLandingPage({ products }) {
   const { productId, splits } = useParams();
-  const navigate = useNavigate(); // Hook must be at the top
+  const navigate = useNavigate();
   const product = products.find(p => (p._id || p.id) === productId || (p._id || p.id) === parseInt(productId));
   const totalSplits = parseInt(splits) || 3;
 
@@ -261,7 +261,6 @@ function InviteLandingPage({ products }) {
           </div>
         </div>
 
-        {/* This is the single, working button */}
         <button 
           onClick={handlePayment} 
           style={{ width: '100%', background: '#10b981', color: '#fff', border: 'none', padding: '16px', borderRadius: '14px', fontSize: '16px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 12px rgba(16,185,129,0.15)' }}
@@ -276,6 +275,7 @@ function InviteLandingPage({ products }) {
     </div>
   );
 }
+
 function CheckoutSuccessPage({ setActiveUserPools }) {
   const navigate = useNavigate();
   return (
