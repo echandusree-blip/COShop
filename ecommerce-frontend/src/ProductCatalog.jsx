@@ -25,14 +25,12 @@ export default function AppRouter() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // State to hold products from backend
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     localStorage.setItem('coshop_pools', JSON.stringify(activeUserPools));
   }, [activeUserPools]);
 
-  // Fetch products from backend using Vercel environment variable
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then((res) => res.json())
@@ -163,10 +161,11 @@ function MarketplaceHome({ products, cart, setCart, activeUserPools, setActiveUs
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '25px', padding: '20px' }}>
           {products.map((product) => (
             <div key={product._id || product.id} style={{ width: '290px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '20px', overflow: 'hidden' }}>
-              <img src={product.img} alt={product.name} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+              {/* Updated product.img to product.image */}
+              <img src={product.image} alt={product.name} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
               <div style={{ padding: '20px' }}>
                 <h3 style={{ margin: '0 0 10px 0' }}>{product.name}</h3>
-                <p style={{ fontSize: '14px', color: '#64748b' }}>{product.desc}</p>
+                <p style={{ fontSize: '14px', color: '#64748b' }}>{product.description || product.desc}</p>
                 <div style={{ fontWeight: '800', fontSize: '18px', margin: '10px 0' }}>{formatINR(product.price)}</div>
                 <button onClick={() => setSelectedProduct(product)} style={{ width: '100%', padding: '10px', cursor: 'pointer', marginBottom: '8px' }}>
                   Configure Split Options
@@ -242,7 +241,8 @@ function InviteLandingPage({ products }) {
         <h2 style={{ margin: '0 0 10px 0', fontSize: '24px', color: '#0f172a', fontWeight: '800' }}>Co-Buy Invitation Active!</h2>
         <p style={{ margin: '0 0 30px 0', color: '#64748b', fontSize: '15px' }}>Your colleague added you to this secure checkout link.</p>
         <div style={{ border: '1px solid #f1f5f9', background: '#f8fafc', borderRadius: '16px', padding: '20px', display: 'flex', gap: '20px', textAlign: 'left', marginBottom: '30px' }}>
-          <img src={product.img} alt={product.name} style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '12px' }} />
+          {/* Updated product.img to product.image */}
+          <img src={product.image} alt={product.name} style={{ width: '90px', height: '90px', objectFit: 'cover', borderRadius: '12px' }} />
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <h4 style={{ margin: '0 0 4px 0', fontSize: '16px', color: '#1e293b', fontWeight: '700' }}>{product.name}</h4>
             <div style={{ fontSize: '13px', color: '#64748b', marginBottom: '6px' }}>Retail Evaluation: {formatINR(product.price)}</div>
